@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+// numbers_len은 배열 numbers의 길이입니다.
+int* solution(int numbers[], size_t numbers_len) {
+    int arr[10000];
+    int len = 0, tmp = 0;
+    
+    for (int i = 0; i < numbers_len - 1; i++) {
+        for (int j = i + 1; j < numbers_len; j++) {
+            arr[len++] = numbers[i] + numbers[j];
+        }
+    }
+    
+    for (int i = 0; i < len-1; i++) {
+        for (int j = i + 1; j < len; j++) {
+            if (arr[i] > arr[j]) {
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+    }
+    
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    int* answer = (int*)malloc(sizeof(int) * len);
+    tmp = 0;
+    for (int i = 0; i < len; i++) {
+        if (i == 0 || arr[i] != arr[i-1]) {
+            answer[tmp++] = arr[i];
+        }
+    }
+    
+    return answer;
+}

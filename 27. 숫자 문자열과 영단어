@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
+int parseWord(const char* word) {
+    if (strcasecmp(word, "zero") == 0) return 0;
+    if (strcasecmp(word, "one") == 0) return 1;
+    if (strcasecmp(word, "two") == 0) return 2;
+    if (strcasecmp(word, "three") == 0) return 3;
+    if (strcasecmp(word, "four") == 0) return 4;
+    if (strcasecmp(word, "five") == 0) return 5;
+    if (strcasecmp(word, "six") == 0) return 6;
+    if (strcasecmp(word, "seven") == 0) return 7;
+    if (strcasecmp(word, "eight") == 0) return 8;
+    if (strcasecmp(word, "nine") == 0) return 9;
+    return -1;
+}
+
+int solution(const char* s) {
+    int answer = 0;
+    int len = strlen(s);
+
+    char buffer[10];
+    int wordIndex = 0;
+
+    for (int i = 0; i < len; i++) {
+        if (s[i] >= '0' && s[i] <= '9') {
+            answer = answer * 10 + (s[i] - '0');
+        } else {            
+            buffer[wordIndex++] = s[i];
+        }
+        buffer[wordIndex] = '\0';
+        int num = parseWord(buffer);
+        if (num != -1) {
+            answer = answer * 10 + num;
+            wordIndex = 0;
+        }
+    }
+
+    return answer;
+}

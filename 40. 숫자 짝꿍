@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int sort(const void *a, const void *b)
+{
+    return (*(char*)b - *(char*)a);
+}
+
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+char* solution(const char* X, const char* Y) {
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    char* answer = (char*)malloc(3000001);
+    int x_len = strlen(X);
+    int y_len = strlen(Y);
+    char* x_cpy = (char*)malloc(x_len+1);
+    char* y_cpy = (char*)malloc(y_len+1);
+    int pos = 0;
+    int ans_pos = 0;
+    
+    strcpy(x_cpy, X);
+    strcpy(y_cpy, Y);
+    
+    qsort(x_cpy, x_len, sizeof(char), sort);
+    qsort(y_cpy, y_len, sizeof(char), sort);
+    
+    for (int i = 0; i < x_len; i++) {
+        for (int j = pos; j < y_len; j++) {
+            if (x_cpy[i] == y_cpy[j]) {
+                answer[ans_pos++] = x_cpy[i];
+                pos = j+1;
+                break;
+            }
+        }
+        if (pos == y_len || answer[0] == '0') break;
+    }
+    
+    if (pos == 0) strcpy(answer, "-1");
+    
+    return answer;
+}

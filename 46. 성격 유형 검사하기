@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int score[7] = {3, 2, 1, 0, 1, 2, 3};
+char indicators[8] = {'R', 'T', 'C', 'F', 'J', 'M', 'A', 'N'};
+
+// survey_len은 배열 survey의 길이입니다.
+// choices_len은 배열 choices의 길이입니다.
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+char* solution(const char* survey[], size_t survey_len, int choices[], size_t choices_len) {
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    char* answer = (char*)malloc(sizeof(char)+1);
+    int my_score[8] = {0,};
+    int choice = 0;
+    char category = '\0';
+    int pos = 0;
+    
+    memset(answer, 0x00, 4+1);
+    
+    for (int i = 0; i < choices_len; i++) {
+        if ((choice = choices[i]) == 4) continue;
+        if (choice < 4) {
+            category = survey[i][0];
+        } else {
+            category = survey[i][1];
+        }
+        switch (category) {
+            case 'R':
+                my_score[0] += score[choice-1];
+                break;
+            case 'T':
+                my_score[1] += score[choice-1];
+                break;
+            case 'C':
+                my_score[2] += score[choice-1];
+                break;
+            case 'F':
+                my_score[3] += score[choice-1];
+                break;
+            case 'J':
+                my_score[4] += score[choice-1];
+                break;
+            case 'M':
+                my_score[5] += score[choice-1];
+                break;
+            case 'A':
+                my_score[6] += score[choice-1];
+                break;
+            case 'N':
+                my_score[7] += score[choice-1];
+                break;
+        }
+    }
+    
+    for (int i = 0; i < 8; i += 2) {
+        if (my_score[i] < my_score[i+1]) {
+            answer[pos++] = indicators[i+1];
+        } else {
+            answer[pos++] = indicators[i];
+        }
+    }
+    
+    return answer;
+}

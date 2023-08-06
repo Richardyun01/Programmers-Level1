@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+#define MAX_WORD  4
+
+int check_bob(const char *bob)
+{
+    const char *word[MAX_WORD] = {
+        "aya", "ye", "woo", "ma"
+    };
+
+    int n;
+    while (*bob) {
+        for (n = 0; n < MAX_WORD; n++) {
+            if (!strncmp(bob, word[n], strlen(word[n]))) {
+                bob += strlen(word[n]);
+                break;
+            }
+        }
+        if (n == MAX_WORD) return 0;
+        if (!strncmp(bob, word[n], strlen(word[n]))) return 0;
+    }
+    return 1;
+}
+
+int solution(const char* babbling[], size_t babbling_len) {
+    int answer = 0;
+    for (int i = 0; i < babbling_len; i++) {
+        answer += check_bob(babbling[i]);
+    }
+    return answer;
+}
